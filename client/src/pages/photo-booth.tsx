@@ -343,53 +343,47 @@ export default function PhotoBooth() {
             </div>
 
             {/* Bottom Toolbar */}
-            <div className="bg-card border-t border-border p-4 safe-bottom">
-              <div className="flex gap-2 overflow-x-auto pb-2">
+            <div className="bg-card border-t border-border p-3 safe-bottom">
+              <div className="grid grid-cols-4 gap-2">
                 <Button
-                  size="lg"
                   variant="outline"
                   onClick={() => setIsStickerDrawerOpen(true)}
-                  className="flex-shrink-0"
+                  className="flex flex-col items-center justify-center h-16 px-2"
                   data-testid="button-add-sticker"
                 >
-                  <ImagePlus className="w-5 h-5 mr-2" />
-                  Add Sticker
+                  <ImagePlus className="w-5 h-5 mb-1" />
+                  <span className="text-xs">Sticker</span>
                 </Button>
 
                 <Button
-                  size="lg"
                   variant="outline"
                   onClick={() => setIsTextEditorOpen(true)}
-                  className="flex-shrink-0"
+                  className="flex flex-col items-center justify-center h-16 px-2"
                   data-testid="button-add-text"
                 >
-                  <Type className="w-5 h-5 mr-2" />
-                  Add Text
+                  <Type className="w-5 h-5 mb-1" />
+                  <span className="text-xs">From</span>
                 </Button>
 
-                <div className="flex-1" />
-
                 <Button
-                  size="lg"
                   variant="outline"
                   onClick={handleExport}
                   disabled={isExporting}
-                  className="flex-shrink-0"
+                  className="flex flex-col items-center justify-center h-16 px-2"
                   data-testid="button-export"
                 >
-                  <Download className="w-5 h-5 mr-2" />
-                  Download
+                  <Download className="w-5 h-5 mb-1" />
+                  <span className="text-xs">Download</span>
                 </Button>
 
                 <Button
-                  size="lg"
                   onClick={handleShare}
                   disabled={isExporting}
-                  className="flex-shrink-0"
+                  className="flex flex-col items-center justify-center h-16 px-2"
                   data-testid="button-share"
                 >
-                  <Share2 className="w-5 h-5 mr-2" />
-                  Share
+                  <Share2 className="w-5 h-5 mb-1" />
+                  <span className="text-xs">Share</span>
                 </Button>
               </div>
             </div>

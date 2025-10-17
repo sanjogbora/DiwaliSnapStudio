@@ -15,7 +15,7 @@ export function TextEditorModal({
   onClose,
   onAddText,
 }: TextEditorModalProps) {
-  const [text, setText] = useState("From: ");
+  const [text, setText] = useState("");
   const [backgroundColor, setBackgroundColor] = useState<"red" | "yellow">("red");
 
   if (!isOpen) return null;
@@ -23,7 +23,7 @@ export function TextEditorModal({
   const handleAdd = () => {
     if (text.trim()) {
       onAddText(text.trim(), backgroundColor);
-      setText("From: ");
+      setText("");
       setBackgroundColor("red");
     }
   };
@@ -71,13 +71,13 @@ export function TextEditorModal({
               value={text}
               onChange={(e) => setText(e.target.value)}
               onKeyPress={handleKeyPress}
-              placeholder="From: Your Family"
+              placeholder="Your Family"
               className="text-base"
               autoFocus
               data-testid="input-text"
             />
             <p className="text-xs text-muted-foreground">
-              Add your name or family name to personalize your greeting
+              Enter your name or family name for the greeting
             </p>
           </div>
 
@@ -127,7 +127,7 @@ export function TextEditorModal({
                   color: backgroundColor === "red" ? "white" : "hsl(240, 10%, 12%)",
                 }}
               >
-                {text || "From: Your Family"}
+                {text || "Your Family"}
               </div>
             </div>
           </div>
