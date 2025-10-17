@@ -1,20 +1,17 @@
 import { useEffect, useState, useRef } from "react";
-import { Stage, Layer, Image as KonvaImage, Transformer } from "react-konva";
+import { Stage, Layer, Image as KonvaImage, Transformer, Rect, Text as KonvaText } from "react-konva";
 import useImage from "use-image";
-import type { Sticker, TextElement } from "@shared/schema";
+import type { Sticker } from "@shared/schema";
 import Konva from "konva";
 import { StickerElement } from "@/components/photo-booth/sticker-element";
-import { TextElementComponent } from "@/components/photo-booth/text-element";
 
 interface CanvasEditorProps {
   photoUrl: string;
   photoOrientation: "landscape" | "portrait";
   stickers: Sticker[];
-  textElements: TextElement[];
+  polaroidMessage: string;
   onUpdateSticker: (id: string, updates: Partial<Sticker>) => void;
-  onUpdateText: (id: string, updates: Partial<TextElement>) => void;
   onDeleteSticker: (id: string) => void;
-  onDeleteText: (id: string) => void;
   stageRef: React.MutableRefObject<Konva.Stage | null>;
 }
 
@@ -22,11 +19,9 @@ export function CanvasEditor({
   photoUrl,
   photoOrientation,
   stickers,
-  textElements,
+  polaroidMessage,
   onUpdateSticker,
-  onUpdateText,
   onDeleteSticker,
-  onDeleteText,
   stageRef,
 }: CanvasEditorProps) {
   const [image] = useImage(photoUrl);
@@ -38,6 +33,7 @@ export function CanvasEditor({
   
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [canvasSize, setCanvasSize] = useState({ width: 400, height: 600 });
+  const [polaroidHeight, setPolaroidHeight] = useState(80);
   const containerRef = useRef<HTMLDivElement>(null);
   const transformerRef = useRef<Konva.Transformer>(null);
 
@@ -47,7 +43,7 @@ export function CanvasEditor({
 
       const container = containerRef.current;
       const maxWidth = Math.min(container.clientWidth - 32, 600);
-      const maxHeight = window.innerHeight - 300;
+      const maxHeight = window.innerHeight - 350;
 
       const imageAspect = image.width / image.height;
       let width = maxWidth;
@@ -58,7 +54,10 @@ export function CanvasEditor({
         width = height * imageAspect;
       }
 
-      setCanvasSize({ width, height });
+      // Add polaroid white space at bottom (15% of height)
+      const polaroidSpace = Math.max(60, height * 0.15);
+      setPolaroidHeight(polaroidSpace);
+      setCanvasSize({ width, height: height + polaroidSpace });
     };
 
     updateSize();
@@ -97,6 +96,8 @@ export function CanvasEditor({
     );
   }
 
+  const photoHeight = canvasSize.height - polaroidHeight;
+
   return (
     <div ref={containerRef} className="w-full h-full flex items-center justify-center">
       <div className="shadow-2xl rounded-lg overflow-hidden bg-white">
@@ -112,7 +113,7 @@ export function CanvasEditor({
             <KonvaImage
               image={image}
               width={canvasSize.width}
-              height={canvasSize.height}
+              height={photoHeight}
             />
 
             {/* Stickers */}
@@ -127,24 +128,37 @@ export function CanvasEditor({
               />
             ))}
 
-            {/* Text Elements */}
-            {textElements.map((textElement) => (
-              <TextElementComponent
-                key={textElement.id}
-                textElement={textElement}
-                isSelected={selectedId === textElement.id}
-                onSelect={handleSelect}
-                onUpdate={onUpdateText}
-                onDelete={onDeleteText}
-              />
-            ))}
-
             {/* Frame overlay */}
             {frameImage && (
               <KonvaImage
                 image={frameImage}
                 width={canvasSize.width}
-                height={canvasSize.height}
+                height={photoHeight}
+                listening={false}
+              />
+            )}
+
+            {/* Polaroid white space */}
+            <Rect
+              x={0}
+              y={photoHeight}
+              width={canvasSize.width}
+              height={polaroidHeight}
+              fill="white"
+              listening={false}
+            />
+
+            {/* Handwritten message */}
+            {polaroidMessage && (
+              <KonvaText
+                x={20}
+                y={photoHeight + polaroidHeight / 2 - 12}
+                width={canvasSize.width - 40}
+                text={polaroidMessage}
+                fontSize={24}
+                fontFamily="'Caveat', cursive"
+                fill="#333"
+                align="center"
                 listening={false}
               />
             )}

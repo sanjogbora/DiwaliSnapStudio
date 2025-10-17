@@ -1,20 +1,19 @@
 import { useState, useRef, useCallback } from "react";
-import { Camera, Upload, ImagePlus, Type, Download, Share2, Sparkles } from "lucide-react";
+import { Camera, Upload, ImagePlus, Download, Share2, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { CanvasEditor } from "@/components/photo-booth/canvas-editor";
 import { StickerDrawer } from "@/components/photo-booth/sticker-drawer";
-import { TextEditorModal } from "@/components/photo-booth/text-editor-modal";
-import type { Sticker, TextElement, StickerLibraryItem } from "@shared/schema";
+import type { Sticker, StickerLibraryItem } from "@shared/schema";
 import Konva from "konva";
 
 export default function PhotoBooth() {
   const [photoUrl, setPhotoUrl] = useState<string | null>(null);
   const [photoOrientation, setPhotoOrientation] = useState<"landscape" | "portrait">("portrait");
   const [stickers, setStickers] = useState<Sticker[]>([]);
-  const [textElements, setTextElements] = useState<TextElement[]>([]);
+  const [polaroidMessage, setPolaroidMessage] = useState("");
   const [isStickerDrawerOpen, setIsStickerDrawerOpen] = useState(false);
-  const [isTextEditorOpen, setIsTextEditorOpen] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   
@@ -94,16 +93,11 @@ export default function PhotoBooth() {
         setPhotoOrientation(orientation);
         setPhotoUrl(e.target?.result as string);
         setIsLoading(false);
-        
-        toast({
-          title: "Photo loaded!",
-          description: "Start adding stickers and text",
-        });
       };
       img.src = e.target?.result as string;
     };
     reader.readAsDataURL(file);
-  }, [toast]);
+  }, []);
 
   const handleCameraCapture = useCallback(() => {
     cameraInputRef.current?.click();
@@ -127,32 +121,7 @@ export default function PhotoBooth() {
     };
     setStickers((prev) => [...prev, newSticker]);
     setIsStickerDrawerOpen(false);
-    
-    toast({
-      title: "Sticker added!",
-      description: "Drag and resize to position",
-    });
-  }, [toast]);
-
-  const handleAddText = useCallback((text: string, backgroundColor: "red" | "yellow") => {
-    const newTextElement: TextElement = {
-      id: `text-${Date.now()}`,
-      text,
-      x: 100,
-      y: 100,
-      fontSize: 24,
-      fontFamily: "Inter",
-      backgroundColor,
-      rotation: 0,
-    };
-    setTextElements((prev) => [...prev, newTextElement]);
-    setIsTextEditorOpen(false);
-    
-    toast({
-      title: "Text added!",
-      description: "Drag and resize to position",
-    });
-  }, [toast]);
+  }, []);
 
   const handleUpdateSticker = useCallback((id: string, updates: Partial<Sticker>) => {
     setStickers((prev) =>
@@ -160,25 +129,9 @@ export default function PhotoBooth() {
     );
   }, []);
 
-  const handleUpdateText = useCallback((id: string, updates: Partial<TextElement>) => {
-    setTextElements((prev) =>
-      prev.map((text) => (text.id === id ? { ...text, ...updates } : text))
-    );
-  }, []);
-
   const handleDeleteSticker = useCallback((id: string) => {
     setStickers((prev) => prev.filter((sticker) => sticker.id !== id));
-    toast({
-      title: "Sticker removed",
-    });
-  }, [toast]);
-
-  const handleDeleteText = useCallback((id: string) => {
-    setTextElements((prev) => prev.filter((text) => text.id !== id));
-    toast({
-      title: "Text removed",
-    });
-  }, [toast]);
+  }, []);
 
   const handleExport = useCallback(async () => {
     if (!stageRef.current) return;
@@ -197,11 +150,6 @@ export default function PhotoBooth() {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-
-      toast({
-        title: "Image downloaded!",
-        description: "Your Diwali greeting is ready",
-      });
     } catch (error) {
       toast({
         title: "Export failed",
@@ -233,16 +181,8 @@ export default function PhotoBooth() {
           title: "Happy Diwali!",
           text: "Wishing you a joyous Diwali!",
         });
-        
-        toast({
-          title: "Shared successfully!",
-        });
       } else {
         await handleExport();
-        toast({
-          title: "Downloaded instead",
-          description: "Sharing not supported on this device",
-        });
       }
     } catch (error) {
       if ((error as Error).name !== "AbortError") {
@@ -333,18 +273,30 @@ export default function PhotoBooth() {
                 photoUrl={photoUrl}
                 photoOrientation={photoOrientation}
                 stickers={stickers}
-                textElements={textElements}
+                polaroidMessage={polaroidMessage}
                 onUpdateSticker={handleUpdateSticker}
-                onUpdateText={handleUpdateText}
                 onDeleteSticker={handleDeleteSticker}
-                onDeleteText={handleDeleteText}
                 stageRef={stageRef}
               />
             </div>
 
             {/* Bottom Toolbar */}
-            <div className="bg-card border-t border-border p-3 safe-bottom">
-              <div className="grid grid-cols-4 gap-2">
+            <div className="bg-card border-t border-border p-3 safe-bottom space-y-3">
+              {/* Message Input */}
+              <div className="px-2">
+                <Input
+                  type="text"
+                  placeholder="Add your message or name..."
+                  value={polaroidMessage}
+                  onChange={(e) => setPolaroidMessage(e.target.value)}
+                  className="text-center font-handwriting"
+                  maxLength={50}
+                  data-testid="input-polaroid-message"
+                />
+              </div>
+
+              {/* Action Buttons */}
+              <div className="grid grid-cols-3 gap-2">
                 <Button
                   variant="outline"
                   onClick={() => setIsStickerDrawerOpen(true)}
@@ -353,16 +305,6 @@ export default function PhotoBooth() {
                 >
                   <ImagePlus className="w-5 h-5 mb-1" />
                   <span className="text-xs">Sticker</span>
-                </Button>
-
-                <Button
-                  variant="outline"
-                  onClick={() => setIsTextEditorOpen(true)}
-                  className="flex flex-col items-center justify-center h-16 px-2"
-                  data-testid="button-add-text"
-                >
-                  <Type className="w-5 h-5 mb-1" />
-                  <span className="text-xs">From</span>
                 </Button>
 
                 <Button
@@ -397,12 +339,6 @@ export default function PhotoBooth() {
         onClose={() => setIsStickerDrawerOpen(false)}
         stickers={stickerLibrary}
         onSelectSticker={handleAddSticker}
-      />
-
-      <TextEditorModal
-        isOpen={isTextEditorOpen}
-        onClose={() => setIsTextEditorOpen(false)}
-        onAddText={handleAddText}
       />
     </div>
   );
