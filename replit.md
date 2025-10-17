@@ -109,16 +109,16 @@ This is a progressive web app (PWA) that allows users to:
 
 ## Design System
 
-### Colors (Festive Gradient Theme)
-- **Background**: Linear gradient from `#6D001F` to `#D3003C` (dark maroon to lighter red)
-- **Primary (Light Yellow)**: `hsl(45 100% 70%)` - Button color
-- **Primary Foreground**: `hsl(345 100% 15%)` - Dark text on yellow buttons
-- **Foreground**: White `hsl(0 0% 100%)` - Text color for gradient background
-- **Card/Overlay**: Semi-transparent white overlays for content areas
-- **Borders**: Semi-transparent white borders for glass-morphism effect
+### Colors (Warm Diwali Theme)
+- **Primary (Saffron)**: `hsl(25 85% 55%)` - Main brand color
+- **Festival Orange**: `hsl(15 90% 60%)` - Accent color
+- **Gold**: `hsl(45 75% 50%)` - Highlights
+- **Background**: Warm cream `hsl(35 25% 98%)` - Soft, festive backdrop
+- **Accent**: Golden `hsl(45 60% 85%)` - Warm accent color
+- **Foreground**: Warm dark `hsl(25 15% 15%)` - Text color
 
 ### Typography
-- **Font Family**: Plus Jakarta Sans (loaded from Google Fonts) - Main UI font
+- **Font Family**: Inter (loaded from Google Fonts) - Main UI font
 - **Handwriting Font**: Caveat (loaded from Google Fonts) - Polaroid messages
 - **Sizes**: Responsive with mobile-first approach
 
@@ -191,10 +191,3 @@ The app will be available at `http://localhost:5000`
   - Added loop prevention for square stickers to avoid infinite updates
   - Fixed rendering order - stickers can now be placed anywhere on canvas, including over polaroid message area
   - Transform handler now uses scaleX with keepRatio enforcement for accurate proportions
-- 2024-10-17: **UI Redesign - Gradient Theme:**
-  - Changed font from Inter to Plus Jakarta Sans for modern look
-  - Applied festive gradient background (dark maroon #6D001F to lighter red #D3003C)
-  - Updated buttons to light yellow color for better contrast on gradient
-  - Implemented glass-morphism design with semi-transparent white overlays for cards/modals
-  - Fixed sticker drawer to be responsive (centered and max-width on desktop)
-  - Updated all UI colors for optimal visibility on gradient background
