@@ -29,6 +29,22 @@ export function StickerElement({
     }
   }, [isSelected]);
 
+  useEffect(() => {
+    if (image && sticker.width === 100 && sticker.height === 100) {
+      const aspectRatio = image.width / image.height;
+      const targetWidth = 100;
+      const targetHeight = targetWidth / aspectRatio;
+      
+      // Only update if dimensions would actually change (prevents loops for square stickers)
+      if (Math.abs(targetHeight - sticker.height) > 0.1) {
+        onUpdate(sticker.id, {
+          width: targetWidth,
+          height: targetHeight,
+        });
+      }
+    }
+  }, [image, sticker.id, sticker.width, sticker.height, onUpdate]);
+
   const handleDragEnd = (e: Konva.KonvaEventObject<DragEvent>) => {
     onUpdate(sticker.id, {
       x: e.target.x(),
@@ -41,20 +57,16 @@ export function StickerElement({
     if (!node) return;
 
     const scaleX = node.scaleX();
-    const scaleY = node.scaleY();
     const rotation = node.rotation();
 
-    // Use the average scale to maintain aspect ratio
-    const scale = Math.max(scaleX, scaleY);
-    
     node.scaleX(1);
     node.scaleY(1);
 
     onUpdate(sticker.id, {
       x: node.x(),
       y: node.y(),
-      width: Math.max(50, node.width() * scale),
-      height: Math.max(50, node.height() * scale),
+      width: Math.max(50, node.width() * scaleX),
+      height: Math.max(50, node.height() * scaleX),
       rotation,
       scaleX: 1,
       scaleY: 1,

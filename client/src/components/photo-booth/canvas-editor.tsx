@@ -116,7 +116,17 @@ export function CanvasEditor({
               height={photoHeight}
             />
 
-            {/* Stickers */}
+            {/* Polaroid white space - rendered before stickers so stickers can be on top */}
+            <Rect
+              x={0}
+              y={photoHeight}
+              width={canvasSize.width}
+              height={polaroidHeight}
+              fill="white"
+              listening={false}
+            />
+
+            {/* Stickers - can now be placed anywhere including polaroid strip */}
             {stickers.map((sticker) => (
               <StickerElement
                 key={sticker.id}
@@ -137,16 +147,6 @@ export function CanvasEditor({
                 listening={false}
               />
             )}
-
-            {/* Polaroid white space */}
-            <Rect
-              x={0}
-              y={photoHeight}
-              width={canvasSize.width}
-              height={polaroidHeight}
-              fill="white"
-              listening={false}
-            />
 
             {/* Handwritten message */}
             {polaroidMessage && (
