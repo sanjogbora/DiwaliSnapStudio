@@ -27,7 +27,7 @@ export function StickerDrawer({
       />
 
       {/* Drawer */}
-      <div className="fixed inset-x-0 bottom-0 z-50 bg-card border-t border-border rounded-t-2xl shadow-2xl max-h-[70vh] flex flex-col animate-slide-up">
+      <div className="fixed inset-x-0 bottom-0 z-50 bg-card border-t border-border rounded-t-2xl shadow-2xl max-h-[70vh] md:max-h-[50vh] lg:max-h-[40vh] flex flex-col animate-slide-up">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-border">
           <h2 className="text-lg font-semibold text-foreground">Add Sticker</h2>

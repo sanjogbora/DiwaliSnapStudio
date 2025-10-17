@@ -30,9 +30,9 @@ export function StickerElement({
   }, [isSelected]);
 
   useEffect(() => {
-    if (image && sticker.width === 100 && sticker.height === 100) {
+    if (image && sticker.width === 80 && sticker.height === 80) {
       const aspectRatio = image.width / image.height;
-      const targetWidth = 100;
+      const targetWidth = 80;
       const targetHeight = targetWidth / aspectRatio;
       
       // Only update if dimensions would actually change (prevents loops for square stickers)
