@@ -187,7 +187,10 @@ The app will be available at `http://localhost:5000`
   - Message displays in real-time on canvas and includes in export/share
 - 2024-10-17: **Sticker Enhancement Fixes:**
   - Fixed sticker skewing/deformation during resize - stickers now maintain proper aspect ratio
-  - Implemented smart normalization that only affects newly created stickers (100x100 defaults)
+  - Implemented smart normalization that only affects newly created stickers (80x80 defaults)
   - Added loop prevention for square stickers to avoid infinite updates
   - Fixed rendering order - stickers can now be placed anywhere on canvas, including over polaroid message area
   - Transform handler now uses scaleX with keepRatio enforcement for accurate proportions
+- 2024-10-17: **UI Improvements:**
+  - Fixed sticker drawer being too large on desktop - added responsive max-height (70vh mobile, 50vh tablet, 40vh desktop)
+  - Reduced default sticker size by 20% (from 100px to 80px) for better visual balance
