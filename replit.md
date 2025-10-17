@@ -185,3 +185,9 @@ The app will be available at `http://localhost:5000`
   - Updated UI theme to warm Diwali colors (cream backgrounds, golden accents, saffron primary)
   - Simplified toolbar with message input directly visible (3 buttons instead of 4)
   - Message displays in real-time on canvas and includes in export/share
+- 2024-10-17: **Sticker Enhancement Fixes:**
+  - Fixed sticker skewing/deformation during resize - stickers now maintain proper aspect ratio
+  - Implemented smart normalization that only affects newly created stickers (100x100 defaults)
+  - Added loop prevention for square stickers to avoid infinite updates
+  - Fixed rendering order - stickers can now be placed anywhere on canvas, including over polaroid message area
+  - Transform handler now uses scaleX with keepRatio enforcement for accurate proportions
