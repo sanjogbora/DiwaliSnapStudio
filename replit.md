@@ -77,7 +77,7 @@ This is a progressive web app (PWA) that allows users to:
 - Double-tap to delete
 
 ### Text Elements
-- Custom "From:" text input
+- Custom text input (no default prefix)
 - Color picker (red/yellow backgrounds)
 - Rounded rectangle background with proper contrast
 - Inter Bold font family
@@ -90,9 +90,9 @@ This is a progressive web app (PWA) that allows users to:
 - Share to WhatsApp, social media, etc.
 
 ### Frames
-- Auto-applied based on photo orientation
-- Transparent center to show photo
-- Decorative borders overlay on top
+- Auto-applied based on photo orientation (landscape.png / portrait.png)
+- Dynamically resizes to match photo dimensions
+- Decorative Diwali-themed borders overlay on top of photo
 
 ## Mobile Optimizations
 
@@ -121,27 +121,31 @@ This is a progressive web app (PWA) that allows users to:
 - Large tap targets (min 44x44px)
 - Generous padding for comfort
 
-## Adding Your Assets
+## Current Assets
 
-### Stickers
+### Stickers (9 Total)
+All stickers are located in `public/stickers/` and configured in `client/src/pages/photo-booth.tsx`:
+
+1. **Diya** - Traditional oil lamp (`diya.png`)
+2. **Rangoli** - Colorful mandala pattern (`rangoli.png`)
+3. **Lantern** - Festive hanging lamp (`lantern.png`)
+4. **Sparkler** - Firework sparkler (`sparkler.png`)
+5. **Firework** - Colorful cone firework (`firework.png`)
+6. **Firecracker** - Traditional firecracker (`firecracker.png`)
+7. **Jalebi** - Sweet spiral dessert (`jalebi.png`)
+8. **Samosa** - Delicious snack (`samosa.png`)
+9. **Sweet** - Festival dessert (`sweet.png`)
+
+To add more stickers:
 1. Add PNG files to `public/stickers/`
-2. Update `stickerLibrary` array in `client/src/pages/photo-booth.tsx`:
-
-```typescript
-const stickerLibrary: StickerLibraryItem[] = [
-  {
-    id: "happy-diwali",
-    name: "Happy Diwali",
-    imageUrl: "/stickers/happy-diwali.png",
-  },
-  // Add more...
-];
-```
+2. Update `stickerLibrary` array in `client/src/pages/photo-booth.tsx`
+3. Ensure file permissions are 644 (readable by web server)
 
 ### Frames
-1. Add `landscape.png` to `public/frames/` for horizontal photos
-2. Add `portrait.png` to `public/frames/` for vertical photos
-3. Use transparent center with decorative borders
+1. **Landscape Frame** - `public/frames/landscape.png` for horizontal photos
+2. **Portrait Frame** - `public/frames/portrait.png` for vertical photos
+3. Frames automatically resize to match photo dimensions
+4. Frames use decorative Diwali-themed borders with transparent centers
 
 ## Running the App
 
@@ -162,3 +166,8 @@ The app will be available at `http://localhost:5000`
 
 ## Recent Changes
 - 2024-10-17: Initial implementation with canvas editor, sticker system, text customization, and mobile sharing
+- 2024-10-17: Added 9 Diwali stickers (diya, rangoli, lantern, sparkler, firework, firecracker, jalebi, samosa, sweet)
+- 2024-10-17: Added landscape and portrait frames with dynamic resizing
+- 2024-10-17: Fixed sticker loading issue (file permissions)
+- 2024-10-17: Improved toolbar UX - changed to grid layout, all buttons visible without scrolling
+- 2024-10-17: Changed "Add Text" to "From" button, removed default "From:" prefix in text input
