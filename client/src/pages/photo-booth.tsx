@@ -23,9 +23,53 @@ export default function PhotoBooth() {
   const stageRef = useRef<Konva.Stage>(null);
   const { toast } = useToast();
 
-  // Placeholder stickers - user will add their own
+  // Diwali stickers library
   const stickerLibrary: StickerLibraryItem[] = [
-    // User will add stickers here
+    {
+      id: "diya",
+      name: "Diya",
+      imageUrl: "/stickers/diya.png",
+    },
+    {
+      id: "rangoli",
+      name: "Rangoli",
+      imageUrl: "/stickers/rangoli.png",
+    },
+    {
+      id: "lantern",
+      name: "Lantern",
+      imageUrl: "/stickers/lantern.png",
+    },
+    {
+      id: "sparkler",
+      name: "Sparkler",
+      imageUrl: "/stickers/sparkler.png",
+    },
+    {
+      id: "firework",
+      name: "Firework",
+      imageUrl: "/stickers/firework.png",
+    },
+    {
+      id: "firecracker",
+      name: "Firecracker",
+      imageUrl: "/stickers/firecracker.png",
+    },
+    {
+      id: "jalebi",
+      name: "Jalebi",
+      imageUrl: "/stickers/jalebi.png",
+    },
+    {
+      id: "samosa",
+      name: "Samosa",
+      imageUrl: "/stickers/samosa.png",
+    },
+    {
+      id: "sweet",
+      name: "Sweet",
+      imageUrl: "/stickers/sweet.png",
+    },
   ];
 
   const handleFileUpload = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
