@@ -44,14 +44,17 @@ export function StickerElement({
     const scaleY = node.scaleY();
     const rotation = node.rotation();
 
+    // Use the average scale to maintain aspect ratio
+    const scale = Math.max(scaleX, scaleY);
+    
     node.scaleX(1);
     node.scaleY(1);
 
     onUpdate(sticker.id, {
       x: node.x(),
       y: node.y(),
-      width: Math.max(50, node.width() * scaleX),
-      height: Math.max(50, node.height() * scaleY),
+      width: Math.max(50, node.width() * scale),
+      height: Math.max(50, node.height() * scale),
       rotation,
       scaleX: 1,
       scaleY: 1,

@@ -152,6 +152,7 @@ export function CanvasEditor({
             {/* Transformer for selected elements */}
             <Transformer
               ref={transformerRef}
+              keepRatio={true}
               boundBoxFunc={(oldBox, newBox) => {
                 // Limit resize
                 if (newBox.width < 50 || newBox.height < 50) {
