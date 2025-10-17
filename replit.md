@@ -62,32 +62,36 @@ This is a progressive web app (PWA) that allows users to:
 - File upload with drag-and-drop support
 - Automatic orientation detection (landscape/portrait)
 
-### Canvas Editing
+### Canvas Editing (Polaroid Format)
+- Polaroid-style layout with 100px white space at bottom for handwritten message
 - Touch-optimized drag, resize, and rotate gestures
 - Pinch-to-zoom on elements
 - Double-tap to delete elements
 - Transform handles for precise control
+- Message displayed in Caveat handwriting font
 
 ### Stickers
 - Sticker library drawer with grid layout
 - Tap to add sticker at center
 - Drag to reposition
-- Pinch/handles to resize
+- Pinch/handles to resize with aspect ratio preserved (keepRatio=true)
 - Rotate gesture support
 - Double-tap to delete
+- Maintains original proportions when resizing
 
-### Text Elements
-- Custom text input (no default prefix)
-- Color picker (red/yellow backgrounds)
-- Rounded rectangle background with proper contrast
-- Inter Bold font family
-- Drag, resize, rotate capabilities
+### Polaroid Message
+- Simple text input in toolbar (no complex modal)
+- Displays message in white space at bottom of canvas
+- Uses Caveat handwriting font for authentic Polaroid look
+- Real-time preview on canvas
+- Included in final export
 
 ### Export & Share
 - Export as PNG with 2x pixel ratio for quality
 - Native Web Share API integration
 - Fallback to download for unsupported devices
 - Share to WhatsApp, social media, etc.
+- Silent export (no toast notifications for successful downloads/shares)
 
 ### Frames
 - Auto-applied based on photo orientation (landscape.png / portrait.png)
@@ -105,15 +109,17 @@ This is a progressive web app (PWA) that allows users to:
 
 ## Design System
 
-### Colors
+### Colors (Warm Diwali Theme)
 - **Primary (Saffron)**: `hsl(25 85% 55%)` - Main brand color
 - **Festival Orange**: `hsl(15 90% 60%)` - Accent color
 - **Gold**: `hsl(45 75% 50%)` - Highlights
-- **Text Backgrounds**: Red `hsl(0 75% 45%)` and Yellow `hsl(45 90% 55%)`
+- **Background**: Warm cream `hsl(35 25% 98%)` - Soft, festive backdrop
+- **Accent**: Golden `hsl(45 60% 85%)` - Warm accent color
+- **Foreground**: Warm dark `hsl(25 15% 15%)` - Text color
 
 ### Typography
-- **Font Family**: Inter (loaded from Google Fonts)
-- **Text Elements**: Inter Bold for "From:" labels
+- **Font Family**: Inter (loaded from Google Fonts) - Main UI font
+- **Handwriting Font**: Caveat (loaded from Google Fonts) - Polaroid messages
 - **Sizes**: Responsive with mobile-first approach
 
 ### Spacing
@@ -171,3 +177,11 @@ The app will be available at `http://localhost:5000`
 - 2024-10-17: Fixed sticker loading issue (moved assets from `public/` to `client/public/` for Vite compatibility)
 - 2024-10-17: Improved toolbar UX - changed to grid layout, all buttons visible without scrolling
 - 2024-10-17: Changed "Add Text" to "From" button, removed default "From:" prefix in text input
+- 2024-10-17: **Major Update - Polaroid Format & UX Improvements:**
+  - Fixed sticker aspect ratio preservation (added keepRatio=true to Transformer)
+  - Replaced complex text feature with Polaroid-style format (100px white space at bottom for handwritten message)
+  - Added Caveat handwriting font for Polaroid message display
+  - Removed all unnecessary toast notifications (kept only error messages)
+  - Updated UI theme to warm Diwali colors (cream backgrounds, golden accents, saffron primary)
+  - Simplified toolbar with message input directly visible (3 buttons instead of 4)
+  - Message displays in real-time on canvas and includes in export/share
