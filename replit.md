@@ -124,7 +124,7 @@ This is a progressive web app (PWA) that allows users to:
 ## Current Assets
 
 ### Stickers (9 Total)
-All stickers are located in `public/stickers/` and configured in `client/src/pages/photo-booth.tsx`:
+All stickers are located in `client/public/stickers/` and configured in `client/src/pages/photo-booth.tsx`:
 
 1. **Diya** - Traditional oil lamp (`diya.png`)
 2. **Rangoli** - Colorful mandala pattern (`rangoli.png`)
@@ -137,13 +137,13 @@ All stickers are located in `public/stickers/` and configured in `client/src/pag
 9. **Sweet** - Festival dessert (`sweet.png`)
 
 To add more stickers:
-1. Add PNG files to `public/stickers/`
+1. Add PNG files to `client/public/stickers/`
 2. Update `stickerLibrary` array in `client/src/pages/photo-booth.tsx`
 3. Ensure file permissions are 644 (readable by web server)
 
 ### Frames
-1. **Landscape Frame** - `public/frames/landscape.png` for horizontal photos
-2. **Portrait Frame** - `public/frames/portrait.png` for vertical photos
+1. **Landscape Frame** - `client/public/frames/landscape.png` for horizontal photos
+2. **Portrait Frame** - `client/public/frames/portrait.png` for vertical photos
 3. Frames automatically resize to match photo dimensions
 4. Frames use decorative Diwali-themed borders with transparent centers
 
@@ -168,6 +168,6 @@ The app will be available at `http://localhost:5000`
 - 2024-10-17: Initial implementation with canvas editor, sticker system, text customization, and mobile sharing
 - 2024-10-17: Added 9 Diwali stickers (diya, rangoli, lantern, sparkler, firework, firecracker, jalebi, samosa, sweet)
 - 2024-10-17: Added landscape and portrait frames with dynamic resizing
-- 2024-10-17: Fixed sticker loading issue (file permissions)
+- 2024-10-17: Fixed sticker loading issue (moved assets from `public/` to `client/public/` for Vite compatibility)
 - 2024-10-17: Improved toolbar UX - changed to grid layout, all buttons visible without scrolling
 - 2024-10-17: Changed "Add Text" to "From" button, removed default "From:" prefix in text input
