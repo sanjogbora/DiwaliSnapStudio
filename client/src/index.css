@@ -4,15 +4,15 @@
 
 /* LIGHT MODE */
 :root {
-  --button-outline: rgba(0,0,0, .10);
-  --badge-outline: rgba(0,0,0, .05);
+  --button-outline: rgba(255,255,255, .3);
+  --badge-outline: rgba(255,255,255, .2);
 
   /* Automatic computation of border around primary / danger buttons */
   --opaque-button-border-intensity: -8; /* In terms of percentages */
 
   /* Backgrounds applied on top of other backgrounds when hovered/active */
-  --elevate-1: rgba(0,0,0, .03);
-  --elevate-2: rgba(0,0,0, .08);
+  --elevate-1: rgba(255,255,255, .1);
+  --elevate-2: rgba(255,255,255, .2);
 
   --background: 0 0% 100%;
 
@@ -52,24 +52,24 @@
 
   --primary-foreground: 345 100% 15%;
 
-  --secondary: 35 25% 88%;
+  --secondary: 0 0% 100% / 0.2;
 
-  --secondary-foreground: 25 20% 20%;
+  --secondary-foreground: 0 0% 100%;
 
-  --muted: 35 20% 90%;
+  --muted: 0 0% 100% / 0.15;
 
-  --muted-foreground: 25 10% 45%;
+  --muted-foreground: 0 0% 100% / 0.7;
 
-  --accent: 45 60% 85%;
+  --accent: 45 100% 75%;
 
-  --accent-foreground: 35 30% 25%;
+  --accent-foreground: 345 100% 15%;
 
   --destructive: 0 70% 50%;
 
   --destructive-foreground: 0 0% 100%;
 
-  --input: 240 8% 75%;
-  --ring: 25 85% 55%;
+  --input: 0 0% 100% / 0.2;
+  --ring: 45 100% 70%;
   --chart-1: 25 85% 45%;
   --chart-2: 15 90% 50%;
   --chart-3: 45 75% 45%;
