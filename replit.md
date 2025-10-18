@@ -194,3 +194,8 @@ The app will be available at `http://localhost:5000`
 - 2024-10-17: **UI Improvements:**
   - Fixed sticker drawer being too large on desktop - added responsive max-height (70vh mobile, 50vh tablet, 40vh desktop)
   - Reduced default sticker size by 20% (from 100px to 80px) for better visual balance
+- 2024-10-18: **UX Enhancements:**
+  - Added sticker deselection: clicking on canvas background (photo, polaroid strip, text) now deselects stickers and hides transform handles
+  - Reduced minimum sticker size from 50px to 20px - users can now make stickers much smaller for detailed compositions
+  - Replaced plain white polaroid strip with creamy-gold gradient (#FFF8E1 → #FFE8A3 → #FFD77A → #FFE3C0) for warmer aesthetic while maintaining text legibility
+  - Fixed page layout to 100vh with overflow-hidden to prevent toolbar buttons from scrolling out of view
