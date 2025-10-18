@@ -201,3 +201,9 @@ The app will be available at `http://localhost:5000`
   - Hide transform handles on mobile devices (show only on desktop for better touch UX)
   - Implemented pinch-to-resize for mobile - stickers scale from center without drift
   - Added drag-to-delete functionality - drag sticker to bouncing trash icon to delete it
+- 2024-10-18: **UI Refinements:**
+  - Reduced delete trash icon size (from w-8 h-8 p-4 to w-5 h-5 p-2) for better mobile UX
+  - Reduced polaroid white frame from 15% to 8% of height for more compact design
+  - Reduced polaroid text size from 24px to 18px for better proportions
+  - Fixed pinch-to-resize by preventing drag during multi-touch (added isPinching state)
+  - Simplified share API implementation for better native behavior on Android
