@@ -200,7 +200,8 @@ The app will be available at `http://localhost:5000`
   - Replaced plain white polaroid strip with subtle cream gradient (#FFFDF7 → #FFF4D9 → #FFFFC3) that blends softly with photos while maintaining text legibility
   - Fixed page layout to 100vh with overflow-hidden to prevent toolbar buttons from scrolling out of view
 - 2024-10-18: **Critical Quality & Stability Improvements:**
-  - **Fixed random zoom in/out issue**: Implemented debounced resize events (150ms delay) with dimension rounding and change-threshold detection to prevent unnecessary canvas recalculations during editing
+  - **Fixed random zoom in/out issue**: Replaced window resize listener with ResizeObserver to prevent scroll-triggered canvas recalculations, eliminating sticker movement during scrolling
   - **Dramatically improved export resolution**: Increased pixelRatio from 2x to 4x for both download and share functions, producing high-quality images suitable for printing and social media
   - **Refined polaroid text**: Reduced font size by 20% (from 24px to 19px) for better visual proportion with adjusted vertical centering
   - **Eliminated vertical scrolling**: Changed canvas container from overflow-auto to overflow-hidden ensuring fixed layout on all devices
+  - **Fixed transform handles in export**: Export and share functions now temporarily hide Transformer before capturing canvas, ensuring clean exports without selection handles or artifacts
