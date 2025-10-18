@@ -4,7 +4,6 @@ import useImage from "use-image";
 import type { Sticker } from "@shared/schema";
 import Konva from "konva";
 import { StickerElement } from "@/components/photo-booth/sticker-element";
-import { Trash2 } from "lucide-react";
 
 interface CanvasEditorProps {
   photoUrl: string;
@@ -35,11 +34,8 @@ export function CanvasEditor({
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [canvasSize, setCanvasSize] = useState({ width: 400, height: 600 });
   const [polaroidHeight, setPolaroidHeight] = useState(80);
-  const [isDragging, setIsDragging] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const transformerRef = useRef<Konva.Transformer>(null);
-  const deleteZoneRef = useRef<HTMLDivElement>(null);
-
 
   useEffect(() => {
     const updateSize = () => {
@@ -47,7 +43,7 @@ export function CanvasEditor({
 
       const container = containerRef.current;
       const maxWidth = Math.min(container.clientWidth - 32, 600);
-      const maxHeight = window.innerHeight - 400;
+      const maxHeight = window.innerHeight - 350;
 
       const imageAspect = image.width / image.height;
       let width = maxWidth;
@@ -58,8 +54,8 @@ export function CanvasEditor({
         width = height * imageAspect;
       }
 
-      // Add polaroid white space at bottom (8% of height)
-      const polaroidSpace = Math.max(50, height * 0.08);
+      // Add polaroid white space at bottom (15% of height)
+      const polaroidSpace = Math.max(60, height * 0.15);
       setPolaroidHeight(polaroidSpace);
       setCanvasSize({ width, height: height + polaroidSpace });
     };
@@ -102,49 +98,8 @@ export function CanvasEditor({
 
   const photoHeight = canvasSize.height - polaroidHeight;
 
-  const handleStickerDragStart = () => {
-    setIsDragging(true);
-  };
-
-  const handleStickerDragEnd = (id: string, e: Konva.KonvaEventObject<DragEvent>) => {
-    setIsDragging(false);
-    
-    if (deleteZoneRef.current) {
-      const deleteZoneRect = deleteZoneRef.current.getBoundingClientRect();
-      const stage = e.target.getStage();
-      if (!stage) return;
-      
-      const pointerPos = stage.getPointerPosition();
-      if (!pointerPos) return;
-      
-      const stageRect = stage.container().getBoundingClientRect();
-      const absoluteX = stageRect.left + pointerPos.x;
-      const absoluteY = stageRect.top + pointerPos.y;
-      
-      if (
-        absoluteX >= deleteZoneRect.left &&
-        absoluteX <= deleteZoneRect.right &&
-        absoluteY >= deleteZoneRect.top &&
-        absoluteY <= deleteZoneRect.bottom
-      ) {
-        onDeleteSticker(id);
-      }
-    }
-  };
-
   return (
-    <div ref={containerRef} className="w-full h-full flex items-center justify-center relative">
-      {/* Delete zone - shows when dragging */}
-      {isDragging && (
-        <div
-          ref={deleteZoneRef}
-          className="absolute bottom-4 left-1/2 -translate-x-1/2 z-50"
-          data-testid="delete-zone"
-        >
-          <Trash2 className="w-6 h-6 text-destructive" />
-        </div>
-      )}
-      
+    <div ref={containerRef} className="w-full h-full flex items-center justify-center">
       <div className="shadow-2xl rounded-lg overflow-hidden bg-white">
         <Stage
           width={canvasSize.width}
@@ -180,8 +135,6 @@ export function CanvasEditor({
                 onSelect={handleSelect}
                 onUpdate={onUpdateSticker}
                 onDelete={onDeleteSticker}
-                onDragStart={handleStickerDragStart}
-                onDragEnd={(e: Konva.KonvaEventObject<DragEvent>) => handleStickerDragEnd(sticker.id, e)}
               />
             ))}
 
@@ -198,11 +151,11 @@ export function CanvasEditor({
             {/* Handwritten message */}
             {polaroidMessage && (
               <KonvaText
-                x={30}
-                y={photoHeight + polaroidHeight / 2 - 9}
-                width={canvasSize.width - 60}
+                x={20}
+                y={photoHeight + polaroidHeight / 2 - 12}
+                width={canvasSize.width - 40}
                 text={polaroidMessage}
-                fontSize={18}
+                fontSize={24}
                 fontFamily="'Caveat', cursive"
                 fill="#333"
                 align="center"

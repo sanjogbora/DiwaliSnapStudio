@@ -173,40 +173,32 @@ export default function PhotoBooth() {
       });
 
       const blob = await (await fetch(uri)).blob();
-      const file = new File([blob], `diwali-greeting-${Date.now()}.png`, { 
-        type: "image/png",
-        lastModified: Date.now()
-      });
+      const file = new File([blob], `diwali-greeting-${Date.now()}.png`, { type: "image/png" });
 
-      if (navigator.share) {
-        try {
-          // Try to share the file directly
-          await navigator.share({
-            files: [file],
-          });
-        } catch (shareError) {
-          // If share fails (not supported or user cancelled), fallback to download
-          if ((shareError as Error).name !== "AbortError") {
-            await handleExport();
-          }
-        }
+      if (navigator.share && navigator.canShare({ files: [file] })) {
+        await navigator.share({
+          files: [file],
+          title: "Happy Diwali!",
+          text: "Wishing you a joyous Diwali!",
+        });
       } else {
-        // No share API, use download
         await handleExport();
       }
     } catch (error) {
-      toast({
-        title: "Share failed",
-        description: "Please try downloading instead",
-        variant: "destructive",
-      });
+      if ((error as Error).name !== "AbortError") {
+        toast({
+          title: "Share failed",
+          description: "Please try downloading instead",
+          variant: "destructive",
+        });
+      }
     } finally {
       setIsExporting(false);
     }
   }, [handleExport, toast]);
 
   return (
-    <div className="h-screen bg-background flex flex-col overflow-hidden">
+    <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}
       <header className="bg-gradient-to-r from-saffron to-festival-orange p-4 shadow-lg">
         <div className="flex items-center justify-center gap-2">
@@ -217,7 +209,7 @@ export default function PhotoBooth() {
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col overflow-hidden min-h-0">
+      <main className="flex-1 flex flex-col overflow-hidden">
         {!photoUrl ? (
           <div className="flex-1 flex flex-col items-center justify-center p-6 gap-6">
             <div className="text-center space-y-2">
@@ -276,7 +268,7 @@ export default function PhotoBooth() {
         ) : (
           <>
             {/* Canvas Editor */}
-            <div className="flex-1 bg-muted/30 flex items-center justify-center p-4 overflow-hidden">
+            <div className="flex-1 overflow-auto bg-muted/30 flex items-center justify-center p-4">
               <CanvasEditor
                 photoUrl={photoUrl}
                 photoOrientation={photoOrientation}
