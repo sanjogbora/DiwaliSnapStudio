@@ -65,8 +65,8 @@ export function StickerElement({
     onUpdate(sticker.id, {
       x: node.x(),
       y: node.y(),
-      width: Math.max(50, node.width() * scaleX),
-      height: Math.max(50, node.height() * scaleX),
+      width: Math.max(20, node.width() * scaleX),
+      height: Math.max(20, node.height() * scaleX),
       rotation,
       scaleX: 1,
       scaleY: 1,

@@ -78,9 +78,17 @@ export function CanvasEditor({
   }, [selectedId, stageRef]);
 
   const handleStageClick = (e: Konva.KonvaEventObject<MouseEvent | TouchEvent>) => {
-    if (e.target === e.target.getStage()) {
+    // Deselect if clicking on stage or any non-sticker element
+    const targetId = e.target.id();
+    const isSticker = targetId && targetId.startsWith('sticker-');
+    const isTransformerAnchor = e.target.getParent()?.getClassName() === 'Transformer';
+    
+    const clickedOnEmpty = e.target === e.target.getStage() || 
+                          (e.target.getType() === 'Image' && !isSticker) ||
+                          (e.target.getType() === 'Rect' && !isTransformerAnchor) ||
+                          e.target.getType() === 'Text';
+    if (clickedOnEmpty) {
       setSelectedId(null);
-      return;
     }
   };
 
@@ -116,14 +124,20 @@ export function CanvasEditor({
               height={photoHeight}
             />
 
-            {/* Polaroid white space - rendered before stickers so stickers can be on top */}
+            {/* Polaroid gradient strip - rendered before stickers so stickers can be on top */}
             <Rect
               x={0}
               y={photoHeight}
               width={canvasSize.width}
               height={polaroidHeight}
-              fill="white"
-              listening={false}
+              fillLinearGradientStartPoint={{ x: 0, y: 0 }}
+              fillLinearGradientEndPoint={{ x: 0, y: polaroidHeight }}
+              fillLinearGradientColorStops={[
+                0, '#FFF8E1',      // 0% - Soft cream (start)
+                0.4, '#FFE8A3',    // 40% - Warm pale gold (adds light glow)
+                0.7, '#FFD77A',    // 70% - Soft saffron warmth
+                1, '#FFE3C0'       // 100% - Peach-gold tone for gentle finish
+              ]}
             />
 
             {/* Stickers - can now be placed anywhere including polaroid strip */}
@@ -168,8 +182,8 @@ export function CanvasEditor({
               ref={transformerRef}
               keepRatio={true}
               boundBoxFunc={(oldBox, newBox) => {
-                // Limit resize
-                if (newBox.width < 50 || newBox.height < 50) {
+                // Limit resize to minimum 20px (allow smaller stickers)
+                if (newBox.width < 20 || newBox.height < 20) {
                   return oldBox;
                 }
                 return newBox;

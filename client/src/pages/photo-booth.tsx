@@ -198,9 +198,9 @@ export default function PhotoBooth() {
   }, [handleExport, toast]);
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="h-screen bg-background flex flex-col overflow-hidden">
       {/* Header */}
-      <header className="bg-gradient-to-r from-saffron to-festival-orange p-4 shadow-lg">
+      <header className="bg-gradient-to-r from-saffron to-festival-orange p-4 shadow-lg flex-shrink-0">
         <div className="flex items-center justify-center gap-2">
           <Sparkles className="w-6 h-6 text-white" />
           <h1 className="text-2xl font-bold text-white">Diwali Photo Booth</h1>
@@ -209,7 +209,7 @@ export default function PhotoBooth() {
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col overflow-hidden">
+      <main className="flex-1 flex flex-col min-h-0">
         {!photoUrl ? (
           <div className="flex-1 flex flex-col items-center justify-center p-6 gap-6">
             <div className="text-center space-y-2">
@@ -268,7 +268,7 @@ export default function PhotoBooth() {
         ) : (
           <>
             {/* Canvas Editor */}
-            <div className="flex-1 overflow-auto bg-muted/30 flex items-center justify-center p-4">
+            <div className="flex-1 min-h-0 overflow-auto bg-muted/30 flex items-center justify-center p-4">
               <CanvasEditor
                 photoUrl={photoUrl}
                 photoOrientation={photoOrientation}
@@ -281,7 +281,7 @@ export default function PhotoBooth() {
             </div>
 
             {/* Bottom Toolbar */}
-            <div className="bg-card border-t border-border p-3 safe-bottom space-y-3">
+            <div className="bg-card border-t border-border p-3 safe-bottom space-y-3 flex-shrink-0">
               {/* Message Input */}
               <div className="px-2">
                 <Input
