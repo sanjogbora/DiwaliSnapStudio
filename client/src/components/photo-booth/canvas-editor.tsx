@@ -133,10 +133,9 @@ export function CanvasEditor({
               fillLinearGradientStartPoint={{ x: 0, y: 0 }}
               fillLinearGradientEndPoint={{ x: 0, y: polaroidHeight }}
               fillLinearGradientColorStops={[
-                0, '#FFF8E1',      // 0% - Soft cream (start)
-                0.4, '#FFE8A3',    // 40% - Warm pale gold (adds light glow)
-                0.7, '#FFD77A',    // 70% - Soft saffron warmth
-                1, '#FFE3C0'       // 100% - Peach-gold tone for gentle finish
+                0, '#FFFDF7',      // 0% - Almost white, blends softly with the photo
+                0.5, '#FFF4D9',    // 50% - Warm off-white, gentle transition
+                1, '#FFFFC3'       // 100% - Muted cream-yellow base
               ]}
             />
 
