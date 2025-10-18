@@ -141,7 +141,7 @@ export default function PhotoBooth() {
       const uri = stageRef.current.toDataURL({
         mimeType: "image/png",
         quality: 1,
-        pixelRatio: 2,
+        pixelRatio: 4,
       });
 
       const link = document.createElement("a");
@@ -169,7 +169,7 @@ export default function PhotoBooth() {
       const uri = stageRef.current.toDataURL({
         mimeType: "image/png",
         quality: 1,
-        pixelRatio: 2,
+        pixelRatio: 4,
       });
 
       const blob = await (await fetch(uri)).blob();
@@ -268,7 +268,7 @@ export default function PhotoBooth() {
         ) : (
           <>
             {/* Canvas Editor */}
-            <div className="flex-1 min-h-0 overflow-auto bg-muted/30 flex items-center justify-center p-4">
+            <div className="flex-1 min-h-0 overflow-hidden bg-muted/30 flex items-center justify-center p-4">
               <CanvasEditor
                 photoUrl={photoUrl}
                 photoOrientation={photoOrientation}

@@ -56,13 +56,35 @@ export function CanvasEditor({
 
       // Add polaroid white space at bottom (15% of height)
       const polaroidSpace = Math.max(60, height * 0.15);
-      setPolaroidHeight(polaroidSpace);
-      setCanvasSize({ width, height: height + polaroidSpace });
+      
+      // Only update if dimensions actually changed (prevent unnecessary re-renders)
+      setCanvasSize(prev => {
+        const newWidth = Math.round(width);
+        const newHeight = Math.round(height + polaroidSpace);
+        const newPolaroidHeight = Math.round(polaroidSpace);
+        
+        if (Math.abs(prev.width - newWidth) > 1 || Math.abs(prev.height - newHeight) > 1) {
+          setPolaroidHeight(newPolaroidHeight);
+          return { width: newWidth, height: newHeight };
+        }
+        return prev;
+      });
     };
 
     updateSize();
-    window.addEventListener("resize", updateSize);
-    return () => window.removeEventListener("resize", updateSize);
+    
+    // Debounce resize events to prevent excessive recalculation
+    let resizeTimeout: ReturnType<typeof setTimeout>;
+    const debouncedResize = () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(updateSize, 150);
+    };
+    
+    window.addEventListener("resize", debouncedResize);
+    return () => {
+      window.removeEventListener("resize", debouncedResize);
+      clearTimeout(resizeTimeout);
+    };
   }, [image]);
 
   useEffect(() => {
@@ -165,10 +187,10 @@ export function CanvasEditor({
             {polaroidMessage && (
               <KonvaText
                 x={20}
-                y={photoHeight + polaroidHeight / 2 - 12}
+                y={photoHeight + polaroidHeight / 2 - 10}
                 width={canvasSize.width - 40}
                 text={polaroidMessage}
-                fontSize={24}
+                fontSize={19}
                 fontFamily="'Caveat', cursive"
                 fill="#333"
                 align="center"
