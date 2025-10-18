@@ -68,8 +68,8 @@ export function CanvasEditor({
         width = height * imageAspect;
       }
 
-      // Add polaroid white space at bottom (15% of height)
-      const polaroidSpace = Math.max(60, height * 0.15);
+      // Add polaroid white space at bottom (8% of height)
+      const polaroidSpace = Math.max(50, height * 0.08);
       setPolaroidHeight(polaroidSpace);
       setCanvasSize({ width, height: height + polaroidSpace });
     };
@@ -224,10 +224,10 @@ export function CanvasEditor({
       {isDragging && (
         <div
           ref={deleteZoneRef}
-          className="absolute bottom-4 left-1/2 -translate-x-1/2 z-50 bg-destructive text-destructive-foreground rounded-full p-4 shadow-2xl animate-bounce"
+          className="absolute bottom-4 left-1/2 -translate-x-1/2 z-50 bg-destructive text-destructive-foreground rounded-full p-2 shadow-2xl animate-bounce"
           data-testid="delete-zone"
         >
-          <Trash2 className="w-8 h-8" />
+          <Trash2 className="w-5 h-5" />
         </div>
       )}
       
@@ -287,10 +287,10 @@ export function CanvasEditor({
             {polaroidMessage && (
               <KonvaText
                 x={30}
-                y={photoHeight + polaroidHeight / 2 - 12}
+                y={photoHeight + polaroidHeight / 2 - 9}
                 width={canvasSize.width - 60}
                 text={polaroidMessage}
-                fontSize={24}
+                fontSize={18}
                 fontFamily="'Caveat', cursive"
                 fill="#333"
                 align="center"

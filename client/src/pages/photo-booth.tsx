@@ -207,7 +207,7 @@ export default function PhotoBooth() {
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col overflow-hidden">
+      <main className="flex-1 flex flex-col overflow-hidden min-h-0">
         {!photoUrl ? (
           <div className="flex-1 flex flex-col items-center justify-center p-6 gap-6">
             <div className="text-center space-y-2">
@@ -266,7 +266,7 @@ export default function PhotoBooth() {
         ) : (
           <>
             {/* Canvas Editor */}
-            <div className="flex-1 bg-muted/30 flex items-center justify-center p-4">
+            <div className="flex-1 bg-muted/30 flex items-center justify-center p-4 overflow-hidden">
               <CanvasEditor
                 photoUrl={photoUrl}
                 photoOrientation={photoOrientation}
