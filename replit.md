@@ -63,12 +63,12 @@ This is a progressive web app (PWA) that allows users to:
 - Automatic orientation detection (landscape/portrait)
 
 ### Canvas Editing (Polaroid Format)
-- Polaroid-style layout with 100px white space at bottom for handwritten message
+- Polaroid-style layout with 8% white space at bottom for handwritten message
 - Touch-optimized drag, resize, and rotate gestures
-- Pinch-to-zoom on elements
+- Transform handles with aspect ratio preservation (keepRatio=true) - no deformation
 - Double-tap to delete elements
-- Transform handles for precise control
-- Message displayed in Caveat handwriting font
+- Drag-to-delete - drag sticker to red trash icon
+- Message displayed in Caveat handwriting font (18px)
 
 ### Stickers
 - Sticker library drawer with grid layout
@@ -198,12 +198,16 @@ The app will be available at `http://localhost:5000`
   - Fixed share functionality to show full native Android share sheet (removed title/text, only passing files)
   - Fixed page scrolling - layout now fits viewport without overflow (changed to h-screen overflow-hidden)
   - Increased polaroid text padding from 20px to 30px on each side to prevent text overflow
-  - Hide transform handles on mobile devices (show only on desktop for better touch UX)
-  - Implemented pinch-to-resize for mobile - stickers scale from center without drift
-  - Added drag-to-delete functionality - drag sticker to bouncing trash icon to delete it
+  - Added drag-to-delete functionality - drag sticker to trash icon to delete it
 - 2024-10-18: **UI Refinements:**
   - Reduced delete trash icon size (from w-8 h-8 p-4 to w-5 h-5 p-2) for better mobile UX
   - Reduced polaroid white frame from 15% to 8% of height for more compact design
   - Reduced polaroid text size from 24px to 18px for better proportions
   - Fixed pinch-to-resize by preventing drag during multi-touch (added isPinching state)
   - Simplified share API implementation for better native behavior on Android
+- 2024-10-18: **Reverted to Transform Handles:**
+  - Removed pinch-to-resize feature (wasn't working reliably)
+  - Restored transform handles on mobile for better sticker control
+  - Transform handles maintain aspect ratio (keepRatio=true) - no deformation
+  - Delete button simplified - removed bounce animation and background (just static red icon)
+  - Increased canvas height constraint to reduce page scrolling (400px instead of 350px)
