@@ -37,6 +37,7 @@ export function CanvasEditor({
   const [polaroidHeight, setPolaroidHeight] = useState(80);
   const [isDragging, setIsDragging] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [isPinching, setIsPinching] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const transformerRef = useRef<Konva.Transformer>(null);
   const deleteZoneRef = useRef<HTMLDivElement>(null);
@@ -98,6 +99,16 @@ export function CanvasEditor({
     }
   };
 
+  const handleTouchStart = (e: Konva.KonvaEventObject<TouchEvent>) => {
+    const touchEvent = e.evt;
+    
+    // If there are 2+ touches and a sticker is selected on mobile, enter pinch mode
+    if (isMobile && touchEvent.touches.length >= 2 && selectedId) {
+      setIsPinching(true);
+      e.evt.preventDefault();
+    }
+  };
+
   const handleSelect = (id: string) => {
     setSelectedId(id);
   };
@@ -114,11 +125,11 @@ export function CanvasEditor({
   };
 
   const handleTouchMove = (e: Konva.KonvaEventObject<TouchEvent>) => {
-    e.evt.preventDefault();
     const touch1 = e.evt.touches[0];
     const touch2 = e.evt.touches[1];
 
-    if (touch1 && touch2 && selectedId && isMobile) {
+    if (touch1 && touch2 && selectedId && isMobile && isPinching) {
+      e.evt.preventDefault();
       const stage = stageRef.current;
       if (!stage) return;
 
@@ -176,6 +187,7 @@ export function CanvasEditor({
   const handleTouchEnd = () => {
     lastDist.current = 0;
     lastCenter.current = null;
+    setIsPinching(false);
   };
 
   if (!image) {
@@ -236,7 +248,7 @@ export function CanvasEditor({
           width={canvasSize.width}
           height={canvasSize.height}
           ref={stageRef}
-          onTouchStart={handleStageClick}
+          onTouchStart={handleTouchStart}
           onClick={handleStageClick}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
@@ -270,6 +282,7 @@ export function CanvasEditor({
                 onDelete={onDeleteSticker}
                 onDragStart={handleStickerDragStart}
                 onDragEnd={(e: Konva.KonvaEventObject<DragEvent>) => handleStickerDragEnd(sticker.id, e)}
+                draggable={!isPinching}
               />
             ))}
 
