@@ -138,11 +138,29 @@ export default function PhotoBooth() {
 
     setIsExporting(true);
     try {
-      const uri = stageRef.current.toDataURL({
+      const stage = stageRef.current;
+      
+      // Find and hide transformer before export to avoid showing handles
+      const transformer = stage.findOne('Transformer');
+      const transformerWasVisible = transformer?.visible();
+      if (transformer) {
+        transformer.hide();
+      }
+      
+      // Force layer redraw to apply transformer hide
+      stage.getLayers().forEach(layer => layer.batchDraw());
+      
+      const uri = stage.toDataURL({
         mimeType: "image/png",
         quality: 1,
         pixelRatio: 4,
       });
+
+      // Restore transformer visibility
+      if (transformer && transformerWasVisible) {
+        transformer.show();
+        stage.getLayers().forEach(layer => layer.batchDraw());
+      }
 
       const link = document.createElement("a");
       link.download = `diwali-greeting-${Date.now()}.png`;
@@ -166,11 +184,29 @@ export default function PhotoBooth() {
 
     setIsExporting(true);
     try {
-      const uri = stageRef.current.toDataURL({
+      const stage = stageRef.current;
+      
+      // Find and hide transformer before export to avoid showing handles
+      const transformer = stage.findOne('Transformer');
+      const transformerWasVisible = transformer?.visible();
+      if (transformer) {
+        transformer.hide();
+      }
+      
+      // Force layer redraw to apply transformer hide
+      stage.getLayers().forEach(layer => layer.batchDraw());
+      
+      const uri = stage.toDataURL({
         mimeType: "image/png",
         quality: 1,
         pixelRatio: 4,
       });
+
+      // Restore transformer visibility
+      if (transformer && transformerWasVisible) {
+        transformer.show();
+        stage.getLayers().forEach(layer => layer.batchDraw());
+      }
 
       const blob = await (await fetch(uri)).blob();
       const file = new File([blob], `diwali-greeting-${Date.now()}.png`, { type: "image/png" });

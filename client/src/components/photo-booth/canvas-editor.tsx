@@ -36,6 +36,12 @@ export function CanvasEditor({
   const [polaroidHeight, setPolaroidHeight] = useState(80);
   const containerRef = useRef<HTMLDivElement>(null);
   const transformerRef = useRef<Konva.Transformer>(null);
+  const selectedIdRef = useRef<string | null>(null);
+
+  // Keep ref in sync with state for export access
+  useEffect(() => {
+    selectedIdRef.current = selectedId;
+  }, [selectedId]);
 
   useEffect(() => {
     const updateSize = () => {
@@ -73,17 +79,17 @@ export function CanvasEditor({
 
     updateSize();
     
-    // Debounce resize events to prevent excessive recalculation
-    let resizeTimeout: ReturnType<typeof setTimeout>;
-    const debouncedResize = () => {
-      clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(updateSize, 150);
-    };
+    // Use ResizeObserver instead of window resize to prevent scroll-triggered resizes
+    if (!containerRef.current) return;
     
-    window.addEventListener("resize", debouncedResize);
+    const resizeObserver = new ResizeObserver(() => {
+      updateSize();
+    });
+    
+    resizeObserver.observe(containerRef.current);
+    
     return () => {
-      window.removeEventListener("resize", debouncedResize);
-      clearTimeout(resizeTimeout);
+      resizeObserver.disconnect();
     };
   }, [image]);
 
