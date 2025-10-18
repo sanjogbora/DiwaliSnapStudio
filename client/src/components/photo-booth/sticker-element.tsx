@@ -10,6 +10,8 @@ interface StickerElementProps {
   onSelect: (id: string) => void;
   onUpdate: (id: string, updates: Partial<Sticker>) => void;
   onDelete: (id: string) => void;
+  onDragStart?: () => void;
+  onDragEnd?: (e: Konva.KonvaEventObject<DragEvent>) => void;
 }
 
 export function StickerElement({
@@ -18,6 +20,8 @@ export function StickerElement({
   onSelect,
   onUpdate,
   onDelete,
+  onDragStart,
+  onDragEnd,
 }: StickerElementProps) {
   const [image] = useImage(sticker.imageUrl);
   const imageRef = useRef<Konva.Image>(null);
@@ -50,6 +54,16 @@ export function StickerElement({
       x: e.target.x(),
       y: e.target.y(),
     });
+    
+    if (onDragEnd) {
+      onDragEnd(e);
+    }
+  };
+
+  const handleDragStart = () => {
+    if (onDragStart) {
+      onDragStart();
+    }
   };
 
   const handleTransformEnd = () => {
@@ -105,6 +119,7 @@ export function StickerElement({
       draggable
       onClick={handleTap}
       onTap={handleTap}
+      onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
       onTransformEnd={handleTransformEnd}
       data-testid={`sticker-${sticker.id}`}

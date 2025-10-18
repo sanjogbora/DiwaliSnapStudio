@@ -178,8 +178,6 @@ export default function PhotoBooth() {
       if (navigator.share && navigator.canShare({ files: [file] })) {
         await navigator.share({
           files: [file],
-          title: "Happy Diwali!",
-          text: "Wishing you a joyous Diwali!",
         });
       } else {
         await handleExport();
@@ -198,7 +196,7 @@ export default function PhotoBooth() {
   }, [handleExport, toast]);
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="h-screen bg-background flex flex-col overflow-hidden">
       {/* Header */}
       <header className="bg-gradient-to-r from-saffron to-festival-orange p-4 shadow-lg">
         <div className="flex items-center justify-center gap-2">
@@ -268,7 +266,7 @@ export default function PhotoBooth() {
         ) : (
           <>
             {/* Canvas Editor */}
-            <div className="flex-1 overflow-auto bg-muted/30 flex items-center justify-center p-4">
+            <div className="flex-1 bg-muted/30 flex items-center justify-center p-4">
               <CanvasEditor
                 photoUrl={photoUrl}
                 photoOrientation={photoOrientation}
