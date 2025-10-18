@@ -194,3 +194,10 @@ The app will be available at `http://localhost:5000`
 - 2024-10-17: **UI Improvements:**
   - Fixed sticker drawer being too large on desktop - added responsive max-height (70vh mobile, 50vh tablet, 40vh desktop)
   - Reduced default sticker size by 20% (from 100px to 80px) for better visual balance
+- 2024-10-18: **Mobile UX & Share Improvements:**
+  - Fixed share functionality to show full native Android share sheet (removed title/text, only passing files)
+  - Fixed page scrolling - layout now fits viewport without overflow (changed to h-screen overflow-hidden)
+  - Increased polaroid text padding from 20px to 30px on each side to prevent text overflow
+  - Hide transform handles on mobile devices (show only on desktop for better touch UX)
+  - Implemented pinch-to-resize for mobile - stickers scale from center without drift
+  - Added drag-to-delete functionality - drag sticker to bouncing trash icon to delete it
