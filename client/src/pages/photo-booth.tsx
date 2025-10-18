@@ -173,23 +173,33 @@ export default function PhotoBooth() {
       });
 
       const blob = await (await fetch(uri)).blob();
-      const file = new File([blob], `diwali-greeting-${Date.now()}.png`, { type: "image/png" });
+      const file = new File([blob], `diwali-greeting-${Date.now()}.png`, { 
+        type: "image/png",
+        lastModified: Date.now()
+      });
 
-      if (navigator.share && navigator.canShare({ files: [file] })) {
-        await navigator.share({
-          files: [file],
-        });
+      if (navigator.share) {
+        try {
+          // Try to share the file directly
+          await navigator.share({
+            files: [file],
+          });
+        } catch (shareError) {
+          // If share fails (not supported or user cancelled), fallback to download
+          if ((shareError as Error).name !== "AbortError") {
+            await handleExport();
+          }
+        }
       } else {
+        // No share API, use download
         await handleExport();
       }
     } catch (error) {
-      if ((error as Error).name !== "AbortError") {
-        toast({
-          title: "Share failed",
-          description: "Please try downloading instead",
-          variant: "destructive",
-        });
-      }
+      toast({
+        title: "Share failed",
+        description: "Please try downloading instead",
+        variant: "destructive",
+      });
     } finally {
       setIsExporting(false);
     }
