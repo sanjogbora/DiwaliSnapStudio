@@ -12,7 +12,6 @@ interface StickerElementProps {
   onDelete: (id: string) => void;
   onDragStart?: () => void;
   onDragEnd?: (e: Konva.KonvaEventObject<DragEvent>) => void;
-  draggable?: boolean;
 }
 
 export function StickerElement({
@@ -23,7 +22,6 @@ export function StickerElement({
   onDelete,
   onDragStart,
   onDragEnd,
-  draggable = true,
 }: StickerElementProps) {
   const [image] = useImage(sticker.imageUrl);
   const imageRef = useRef<Konva.Image>(null);
@@ -118,7 +116,7 @@ export function StickerElement({
       rotation={sticker.rotation}
       scaleX={sticker.scaleX}
       scaleY={sticker.scaleY}
-      draggable={draggable}
+      draggable
       onClick={handleTap}
       onTap={handleTap}
       onDragStart={handleDragStart}
